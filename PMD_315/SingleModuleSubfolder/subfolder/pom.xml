@@ -1,0 +1,29 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>my.test.mpmd386</groupId>
+    <artifactId>SingleModuleSubfolder</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Single Module Subfolder</name>
+
+    <parent>
+        <groupId>my.test.mpmd386</groupId>
+        <artifactId>META-POM</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+
+
+    <properties>
+      <path.to.suppressfile.wo.slash>${project.basedir}</path.to.suppressfile.wo.slash>
+      <pmd.version>3.15.0</pmd.version>
+    </properties>
+
+
+
+
+
+</project>
