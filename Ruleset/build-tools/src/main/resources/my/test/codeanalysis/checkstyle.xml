@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.3//EN" "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+
+<module name="Checker">
+
+  <!-- Allgemeine Angaben -->
+  <!-- Schwierigkeitsgrad, wenn nicht anders definiert -->
+  <property name="severity" value="error" />
+  <!-- Datei Encoding muss UTF-8 sein -->
+  <property name="charset" value="UTF-8" />
+  <!-- Betrachtete Dateientypen -->
+  <property name="fileExtensions" value="java" />
+
+  <!-- Maximale Zeilenlaenge -->
+  <module name="LineLength">
+    <property name="ignorePattern" value="^ .*private static final.*|^package.*|^import.*|a href|href|http://|https://|ftp://" />
+    <property name="max" value="120" />
+    <property name="severity" value="warning" />
+    <property name="fileExtensions" value="java" />
+  </module>
+
+  <!-- SCA-Module -->
+  <module name="TreeWalker">
+    <!-- Dateiname und Name der Klasse/des Interface muessen uebereinstimmen -->
+    <module name="OuterTypeFilename" />
+
+    <!-- Unterbinden, dass Strings und Characters octal oder unicode escapte Darstellung enthalten -->
+    <module name="IllegalTokenText">
+      <property name="tokens" value="STRING_LITERAL, CHAR_LITERAL" />
+      <property name="format" value="\\u00(08|09|0(a|A)|0(c|C)|0(d|D)|22|27|5(C|c))|\\(0(10|11|12|14|15|42|47)|134)" />
+      <property name="message" value="Avoid using corresponding octal or Unicode escape." />
+    </module>
+    <module name="AvoidEscapedUnicodeCharacters">
+      <property name="allowEscapesForControlCharacters" value="true" />
+      <property name="allowByTailComment" value="true" />
+      <property name="allowNonPrintableEscapes" value="true" />
+    </module>
+
+
+
+    <!-- Keine Importer ganzer Packages, sondern nur expliziter Klassen -->
+    <module name="AvoidStarImport" />
+
+    <!-- Eine Klasse/Interface pro Datei -->
+    <module name="OneTopLevelClass" />
+
+    <!-- Sicherstellen, dass innerhalb von Imports und Packagenamen kein Zeilenumbruch ist -->
+    <module name="NoLineWrap" />
+
+    <!-- Keine leeren Anweisungsbloecke in den aufgefuehrten Tokens erlaubt -->
+    <module name="EmptyBlock">
+      <property name="option" value="TEXT" />
+      <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH" />
+    </module>
+    <!-- Klammern bei Kontrollstrukturen -->
+    <module name="NeedBraces" />
+
+    <!-- Oeffnende Klammer am Ende der Zeile -->
+    <module name="LeftCurly">
+      <property name="severity" value="warning" />
+      <!-- <property name="maxLineLength" value="120" /> Property wird in aktuellen Versionen nicht mehr unterstuetzt siehe 
+        https://github.com/MovingBlocks/Terasology/issues/3113 https://github.com/checkstyle/checkstyle/issues/3671 https://github.com/checkstyle/checkstyle/commit/289ef67e9e9ee424723b8aa22ae7a6d31f126d23 -->
+    </module>
+
+    <!-- Schliessende Klammer auf gleicher Zeile oder alleinstehend -->
+    <module name="RightCurly">
+      <property name="id" value="RightCurlySame" />
+      <property name="option" value="same" />
+      <property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE" />
+    </module>
+    <module name="RightCurly">
+      <property name="id" value="RightCurlyAlone" />
+      <property name="option" value="alone" />
+      <property name="tokens"
+        value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT, INSTANCE_INIT, LITERAL_DO" />
+    </module>
+
+    <!-- Keine leeren Bloecke erlauben und sicherstellen, dass Whitespace um Klassennamen etc. ist -->
+    <module name="WhitespaceAround" />
+
+    <!-- Nur ein Statement pro Zeile -->
+    <module name="OneStatementPerLine" />
+
+    <!-- Alle Variablendefinitionen muessen fuer sich pro Zeile stehen -->
+    <module name="MultipleVariableDeclarations" />
+
+    <!-- Arraydeklarationen im Java-Style -->
+    <module name="ArrayTypeStyle" />
+
+    <!-- Fehlender Switch-Default -->
+    <module name="MissingSwitchDefault" />
+
+    <!-- FallThroughs in Switch-Faellen (Case mit Code aber ohne Break) -->
+    <module name="FallThrough" />
+
+    <!-- Sicherstellen, dass das L bei Long-Definitonen großgeschrieben ist -->
+    <module name="UpperEll" />
+
+    <!-- Reihenfolge von Modifieren nach Java Spec sicherstellen -->
+    <module name="ModifierOrder" />
+
+    <!-- Checks for empty line separators after header, package, all import declarations, fields, constructors, methods, 
+      nested classes, static initializers and instance initializers -->
+    <module name="EmptyLineSeparator">
+      <property name="allowNoEmptyLineBetweenFields" value="true" />
+    </module>
+
+    <!-- Umbrueche bei Punkt bzw. Komma -->
+    <module name="SeparatorWrap">
+      <property name="option" value="nl" />
+      <property name="tokens" value="DOT" />
+    </module>
+    <module name="SeparatorWrap">
+      <property name="option" value="EOL" />
+      <property name="tokens" value="COMMA" />
+    </module>
+
+    <!-- Packagenamen entspricht Pattern (u.a. Beginnen mit Kleinbuchstaben) -->
+    <module name="PackageName">
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$" />
+      <message key="name.invalidPattern" value="Package name ''{0}'' must match pattern ''{1}''." />
+    </module>
+
+    <!-- Methodennamen entspricht Pattern (u.a. Beginnen mit Kleinbuchstaben) -->
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$" />
+      <message key="name.invalidPattern" value="Method name ''{0}'' must match pattern ''{1}''." />
+    </module>
+
+    <!-- Elementnamen entspricht Pattern (u.a. Beginnen mit Kleinbuchstaben) -->
+    <module name="MemberName">
+      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$" />
+      <message key="name.invalidPattern" value="Member name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <!-- Parameter entspricht Pattern (u.a. Beginnen mit Kleinbuchstaben) -->
+    <module name="ParameterName">
+      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$" />
+      <message key="name.invalidPattern" value="Parameter name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <!-- Variablen entspricht Pattern (u.a. Beginnen mit Kleinbuchstaben) -->
+    <module name="LocalVariableName">
+      <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9]*$" />
+      <property name="allowOneCharVarInForLoop" value="true" />
+      <property name="tokens" value="VARIABLE_DEF" />
+      <message key="name.invalidPattern" value="Local variable name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <!-- Klassennamen entspricht Pattern (u.a. Beginnen mit Großbuchstaben) -->
+    <module name="ClassTypeParameterName">
+      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)" />
+      <message key="name.invalidPattern" value="Class type name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <!-- Methodennamen entspricht Pattern (u.a. Beginnen mit Großbuchstaben) -->
+    <module name="MethodTypeParameterName">
+      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)" />
+      <message key="name.invalidPattern" value="Method type name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <!-- Interfacenamen entspricht Pattern (u.a. Beginnen mit Großbuchstaben) -->
+    <module name="InterfaceTypeParameterName">
+      <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)" />
+      <message key="name.invalidPattern" value="Interface type name ''{0}'' must match pattern ''{1}''." />
+    </module>
+    <!-- Typenamen entspricht Pattern (u.a. Beginnen mit Großbuchstaben) -->
+    <module name="TypeName">
+      <message key="name.invalidPattern" value="Type name ''{0}'' must match pattern ''{1}''." />
+    </module>
+
+    <!-- Konstantennamen pruefen -->
+    <module name="ConstantName">
+      <property name="severity" value="error" />
+      <metadata name="net.sf.eclipsecs.core.comment"
+        value="Konstanten muessen großgeschrieben werden; 1. Zeichen Buchstaben, 2. Zeichen Buchstabe oder Zahl, ab 3. Zeichen auch Unterstriche (gefolgt von einem Buchstaben oder einer Zahl) erlaubt" />
+    </module>
+
+    <!-- Sicherstellen, dass keine finalize() - Methode existiert -->
+    <module name="NoFinalizer" />
+
+    <!-- Whitespace um bestimmte Tokens -->
+    <module name="GenericWhitespace">
+      <message key="ws.notPreceded" value="GenericWhitespace ''{0}'' is not preceded with whitespace." />
+      <message key="ws.followed" value="GenericWhitespace ''{0}'' is followed by whitespace." />
+      <message key="ws.preceded" value="GenericWhitespace ''{0}'' is preceded with whitespace." />
+      <message key="ws.illegalFollow" value="GenericWhitespace ''{0}'' should followed by whitespace." />
+    </module>
+
+    <!-- Einrueckung -->
+    <module name="Indentation">
+      <property name="basicOffset" value="2" />
+      <property name="caseIndent" value="2" />
+      <property name="arrayInitIndent" value="2" />
+    </module>
+
+    <!-- Reihenfolge der Imports -->
+    <module name="CustomImportOrder">
+      <property name="customImportOrderRules" value="STATIC###STANDARD_JAVA_PACKAGE" />
+      <property name="standardPackageRegExp" value="^java\."/>
+      <property name="sortImportsInGroupAlphabetically" value="true" />
+      <property name="separateLineBetweenGroups" value="true" />
+    </module>
+
+    <!-- Abstaende der einzelnen Elemente eines Methodenaufrufs (auf gleicher Ebene etc.) -->
+    <module name="MethodParamPad" />
+
+    <!-- Umbrueche bei Operatoren mit NL -->
+    <module name="OperatorWrap">
+      <property name="option" value="NL" />
+      <property name="tokens"
+        value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR " />
+    </module>
+
+    <!-- Annotationen zwischen Javadoc und Element. Eine Annotation pro Zeile -->
+    <module name="AnnotationLocation">
+      <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF" />
+    </module>
+    <!-- Annotationen fuer Variablen duerfen auch mehrere pro Zeile -->
+    <module name="AnnotationLocation">
+      <property name="tokens" value="VARIABLE_DEF" />
+      <property name="allowSamelineMultipleAnnotations" value="true" />
+    </module>
+
+    <!-- Javadoc @param etc mit Text -->
+    <module name="NonEmptyAtclauseDescription">
+      <property name="severity" value="warning" />
+    </module>
+    <!-- Javadoc @param in angegebener Reihenfolge -->
+    <module name="AtclauseOrder">
+      <property name="target" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF" />
+      <property name="tagOrder" value="@param, @return, @throws, @deprecated" />
+    </module>
+
+    <!-- Javadoc Einrueckung -->
+    <module name="JavadocTagContinuationIndentation">
+      <property name="severity" value="warning" />
+    </module>
+
+    <!-- Stellt sicher, dass Javadoc (erlaubten) Text enthaelt und der erste Satz mit einem Punkt endet -->
+    <module name="SummaryJavadoc">
+      <property name="severity" value="warning" />
+      <property name="forbiddenSummaryFragments" value="^@return the *|^This method returns |^A [{]@code [a-zA-Z0-9]+[}]( is a )" />
+    </module>
+
+    <!-- Javadoc Check einer Methode -->
+    <module name="JavadocMethod">
+      <!-- Methoden, die mit Override oder Test annotiert sind, werden ignoriert -->
+      <property name="allowedAnnotations" value="Override, Test" />
+      <property name="severity" value="warning" />
+    </module>
+
+    <!-- Stellt sicher, dass nicht mehre Tags und Beschreibung in einer einzelnen Zeile sind -->
+    <module name="SingleLineJavadoc">
+      <property name="ignoreInlineTags" value="false" />
+    </module>
+
+    <!-- Leere Catch-Bloecke sind unerwuenscht -->
+    <module name="EmptyCatchBlock">
+      <property name="exceptionVariableName" value="expected" />
+    </module>
+
+    <!-- Kommentare auf gleicher Einrueckungsstufe wie Sourcecode -->
+    <module name="CommentsIndentation" />
+
+    <!-- TODO-Kommentare finden -->
+    <module name="TodoComment">
+      <property name="severity" value="info" />
+      <property name="format" value="@TODO|TODO|@FIXME|FIXME" />
+      <metadata name="net.sf.eclipsecs.core.comment" value="Hinweis auf @TODO Existenz" />
+    </module>
+
+    <!-- Zyklomatische Komplexitaet -->
+    <module name="CyclomaticComplexity">
+      <property name="severity" value="warning" />
+      <property name="switchBlockAsSingleDecisionPoint" value="true" />
+      <metadata name="net.sf.eclipsecs.core.comment" value="Zyklomatische Komplexitaet sollte max. 10 pro Funktion sein" />
+    </module>
+
+    <!-- Unused Imports pruefen -->
+    <module name="UnusedImports">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Keine unbenutzen Imports" />
+    </module>
+
+    <!-- Redundante Imports pruefen -->
+    <module name="RedundantImport">
+      <metadata name="net.sf.eclipsecs.core.comment" value="Keine redundanten Imports" />
+    </module>
+    
+    <!-- Magic Numbers verbieten: http://checkstyle.sourceforge.net/config_coding.html#MagicNumber -->
+    <module name="MagicNumber">
+      <!-- Bei Konstantendenifinitionen lediglich Methoden-Aufrufe und New-Literale verbieten. Andere Verwendungen dort erlaubt -->
+      <property name="constantWaiverParentToken" value="EXPR, ARRAY_INIT, UNARY_MINUS, UNARY_PLUS, ELIST, STAR, ASSIGN, PLUS, MINUS, DIV"/>
+      <property name="severity" value="warning" />
+      <property name="ignoreHashCodeMethod" value="true"/>
+      <property name="ignoreFieldDeclaration" value="true"/>
+      <property name="ignoreAnnotation" value="true"/>
+    </module>
+
+    <!-- Ueberladene Methoden sollen zusammen stehen -->
+    <module name="OverloadMethodsDeclarationOrder">
+     <property name="severity" value="warning" />
+    </module>    
+    
+    <!-- Stringvergleich mit Equals und nicht mit Gleichheitszeichen http://checkstyle.sourceforge.net/config_coding.html#StringLiteralEquality -->
+    <module name="StringLiteralEquality">
+     <!-- Level auf Error setzen, da diese Arten an vergleichen leicht zu NPE fuehren koennen -->
+     <property name="severity" value="error" />
+    </module>
+
+    <!-- SupressWarninsHolder aktivieren, um die Suppress-Annotationen zu aktivieren -->
+    <!-- http://checkstyle.sourceforge.net/config_filters.html#SuppressWarningsFilter -->
+    <module name="SuppressWarningsHolder" />    
+    
+  </module>
+  
+  <!-- SupressWarninsFilter aktivieren, um die Suppress-Annotationen zu aktivieren -->
+  <!-- http://checkstyle.sourceforge.net/config_filters.html#SuppressWarningsFilter -->
+  <module name="SuppressWarningsFilter" />
+  
+  <!-- Tabs verbieten -->
+  <module name="FileTabCharacter">
+    <property name="severity" value="error" />
+    <property name="eachLine" value="true" />
+  </module>
+</module>

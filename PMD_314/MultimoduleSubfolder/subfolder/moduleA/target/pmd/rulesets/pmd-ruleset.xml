@@ -1,0 +1,800 @@
+<?xml version="1.0"?>
+<ruleset name="PMD-Ruleset"
+  xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0
+  http://pmd.sourceforge.net/ruleset_2_0_0.xsd">
+   <description>
+      PMD-Ruleset
+   </description>
+   
+  <!-- 
+   Alle JAVA-Regeln können hier eingesehen werden
+   https://docs.pmd-code.org/latest/pmd_rules_java.html
+    
+   Prioritäten: 1 = Highest, 5 = Lowest
+  -->
+   
+   
+  <!--
+  * 
+  * Best Practices
+  *
+  --> 
+  
+  <!-- AccessorClassGeneration und AccessorMethodGeneration --> 
+  <rule ref="category/java/bestpractices.xml/AccessorMethodGeneration" />
+  
+  <!-- ArrayIsStoredDirectly (Arrays sollen kopiert werden, um sie zu verwenden) -->
+  <rule ref="category/java/bestpractices.xml/ArrayIsStoredDirectly" />
+  
+  <!-- AvoidPrintStackTrace -->
+  <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
+  
+  <!-- AvoidReassigningParameters -->
+  <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters" />
+  
+  <!-- AvoidStringBufferField -->
+  <rule ref="category/java/bestpractices.xml/AvoidStringBufferField" /> 
+  
+  <!-- AvoidUsingHardCodedIP -->
+  <rule ref="category/java/bestpractices.xml/AvoidUsingHardCodedIP" />
+
+  <!-- CheckResultSet -->
+  <rule ref="category/java/bestpractices.xml/CheckResultSet" />
+  
+  <!-- ConstantsInInterface -->
+  <rule ref="category/java/bestpractices.xml/ConstantsInInterface">
+    <properties>
+      <!-- Interfaces sollen keine Konstanten definieren 
+        Die Regel wird defaultmäßig ignoriert , wenn das Interface zusätzlich Methoden definiert,
+        da dann davon ausgegangen werden kann, dass die Methoden mit den Konstanten interagieren sollen
+        
+        Defaultwert hier deswegen explizit aufgefuehrt
+        -->  
+      <property name="ignoreIfHasMethods" value="true"/>
+    </properties>
+  </rule>
+  
+  <!-- DefaultLabelNotLastInSwitchStmt -->
+  <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt" />
+  
+  <!-- ForLoopCanBeForeach -->
+  <rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach" /> 
+  
+  <!-- GuardLogStatement wird nicht geprüft, da dies in den Loginterceptoren sowie den Log-Bibliotheken ohnehin gemacht wird.
+       Die Verantwortung, dass keine zu großen Logausgaben vorbereitet werden, die dann erst vom Guard-Statement innerhalb der Logmethoden gefiltert werden,
+       liegt somit in der Verantwortung der Entwickler. Wenn große Logausgaben notwendig sind, ist der Entwickler verpflichtet ein Guard-Statement aufzunehmen -->
+  
+ 
+  
+  <!-- LooseCoupling -->
+  <rule ref="category/java/bestpractices.xml/LooseCoupling" /> 
+
+  <!-- MethodReturnsInternalArray -->
+  <rule ref="category/java/bestpractices.xml/MethodReturnsInternalArray" />  
+  
+  <!-- OneDeclarationPerLine -->
+  <rule ref="category/java/bestpractices.xml/OneDeclarationPerLine" />    
+  
+  <!-- Literale bei Vergleichen vorher um NPE zu verhindern -->
+  <rule ref="category/java/bestpractices.xml/LiteralsFirstInComparisons" />
+  
+  <!-- Exceptions nicht schlucken und andere werfen ohne den Grund der ersten weiterzuleiten -->
+  <!-- Bei ObjektInArbeit muss diese Regel vermutlich unterdrückt werden -->
+  <rule ref="category/java/bestpractices.xml/PreserveStackTrace" />  
+  
+  <!-- Enumerations nicht missbrauchen um Iterator zu simulieren -->
+  <rule ref="category/java/bestpractices.xml/ReplaceEnumerationWithIterator" />  
+ 
+  <!-- All switch statements should include a default option to catch any unspecified values. -->
+  <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />  
+
+  <!-- Nicht nach System schreiben -->
+  <rule ref="category/java/bestpractices.xml/SystemPrintln" />
+
+  <!-- Unbenutze Parameter -->
+  <rule ref="category/java/bestpractices.xml/UnusedFormalParameter">
+      <properties>
+      <!-- Abweichend vom Default auch non-private Methoden prüfen-->
+      <property name="checkAll" value="true"/>
+    </properties>
+  </rule>
+  
+
+
+  
+  <!-- UnusedLocalVariable -->
+  <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
+  
+  <!-- UnusedPrivateField -->
+  <rule ref="category/java/bestpractices.xml/UnusedPrivateField" />  
+  
+  <!-- UnusedPrivateMethod -->
+   <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
+    <!-- ignore-postconstruct-methods-for-unused-code 
+      https://stackoverflow.com/questions/34903531/how-to-tell-pmd-to-ignore-postconstruct-methods-for-unused-code) -->   
+    <properties>
+      <property name="violationSuppressXPath"
+        value="ancestor::ClassOrInterfaceBodyDeclaration/Annotation/MarkerAnnotation/Name[@Image='PostConstruct']" />
+    </properties>
+   </rule>   
+
+  <!-- Besser lesbare Assert-Methoden -->
+  <!-- Ab 3.21.0 wieder rein <rule ref="category/java/bestpractices.xml/SimplifiableTestAssertion" /> -->
+  
+  <!-- Die nächsten vier Regeln mit 3.21 raus -->
+  <rule ref="category/java/bestpractices.xml/UseAssertEqualsInsteadOfAssertTrue" />
+  <rule ref="category/java/bestpractices.xml/UseAssertNullInsteadOfAssertTrue" />
+  <rule ref="category/java/bestpractices.xml/UseAssertSameInsteadOfAssertTrue" />  
+  <rule ref="category/java/bestpractices.xml/UseAssertTrueInsteadOfAssertEquals" />
+<!-- bis hier-->
+  
+  <!-- isEmpty anstatt Size und Vergleich auf 0 -->
+  <rule ref="category/java/bestpractices.xml/UseCollectionIsEmpty" />    
+   
+  <!-- Varargs nutzen um zusätzliche Initialisierung eines Arrays zu vermeiden -->
+  <rule ref="category/java/bestpractices.xml/UseVarargs" />    
+  
+  <!-- JUnit 5 Testmethoden sollen PackagePrivate sein
+  Mit 3.21.0 wieder rein
+  <rule ref="category/java/bestpractices.xml/JUnit5TestShouldBePackagePrivate" />-->
+  
+  
+  <!--
+  * 
+  * Code Style (Grundsätzlich nichts eingebunden, da Checkstyle)
+  * Regeln, die hier aufgelistet sind die zu verwendenden Nachfolger von deprecated Regeln anderer Bereiche.
+  *
+  -->  
+ 
+  
+  <!--
+  * 
+  * Design
+  *
+  -->  
+  <!-- Abstrakte Klassen ohne Methoden sind i.d.R. Datenhalter
+       Dafür besser als echte Klassen mit privatem Konstruktur realisiert werden sollen -->
+  <!-- 
+      Regel bis auf weiteres deaktiviert, da sie bei Generaten (z.B. Metamodel) anschlägt.
+      Sie wird aber grundsätzlich für sinnvoll erwachtet (Wenzel, Linke, Buenger)    
+  <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" />-->
+  
+  <!-- AvoidCatchingGenericException -->
+  <rule ref="category/java/design.xml/AvoidCatchingGenericException" /> 
+  
+  <!-- AvoidDeeplyNestedIfStmts -->
+  <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
+    <properties>
+      <!-- Default-Wert ist 3, d.h. ab dem dritten Nested Statement schlägt die Regel an -->
+      <property name="problemDepth" value="3" />
+    </properties>  
+  </rule>
+  
+  <!-- AvoidRethrowingException -->
+  <rule ref="category/java/design.xml/AvoidRethrowingException" /> 
+  
+  <!-- AvoidThrowingNewInstanceOfSameException -->
+  <rule ref="category/java/design.xml/AvoidThrowingNewInstanceOfSameException" />  
+
+  
+  <!-- AvoidThrowingNullPointerException -->
+  <rule ref="category/java/design.xml/AvoidThrowingNullPointerException" />  
+  
+  <!-- AvoidThrowingRawExceptionTypes -->
+  <rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes" /> 
+  
+  <!-- ClassWithOnlyPrivateConstructorsShouldBeFinal -->
+  <rule ref="category/java/design.xml/ClassWithOnlyPrivateConstructorsShouldBeFinal" />  
+  
+  <!-- CollapsibleIfStatements -->
+  <rule ref="category/java/design.xml/CollapsibleIfStatements" /> 
+
+  <!-- CouplingBetweenObjects -->
+  <rule ref="category/java/design.xml/CouplingBetweenObjects">
+    <properties>
+      <!-- Default-Wert ist 20 -->
+      <property name="threshold" value="20" />
+    </properties>   
+  </rule> 
+
+  <!-- DoNotExtendJavaLangError -->
+  <rule ref="category/java/design.xml/DoNotExtendJavaLangError" /> 
+  
+  <!-- ExceptionAsFlowControl -->
+  <rule ref="category/java/design.xml/ExceptionAsFlowControl" /> 
+  
+  
+  <!-- Werte der Excessive-Prüfungen eigenständig definiert. -->
+  
+  <!-- Länge einer Klasse und Methode -->  
+  <rule ref="category/java/design.xml/NcssCount">
+      <properties>      
+          <property name="classReportLevel" value="750" />
+          <property name="methodReportLevel" value="100" />
+      </properties>
+  </rule>  
+  
+  
+  <!-- ExcessiveImports -->
+  <rule ref="category/java/design.xml/ExcessiveImports">
+    <properties>
+      <property name="minimum" value="50" />
+    </properties>     
+  </rule>   
+
+
+  <!-- ExcessiveParameterList -->
+  <rule ref="category/java/design.xml/ExcessiveParameterList">
+      <properties>
+          <property name="minimum" value="5.0" />
+      </properties>
+  </rule> 
+  
+  <!-- ExcessivePublicCount -->
+  <rule ref="category/java/design.xml/ExcessivePublicCount">
+    <properties>
+      <property name="minimum" value="20" />
+    </properties>     
+  </rule>  
+  
+ 
+  <!-- FinalFieldCouldBeStatic -->
+  <rule ref="category/java/design.xml/FinalFieldCouldBeStatic" /> 
+  
+  <!-- GodClass -->
+  <rule ref="category/java/design.xml/GodClass" />   
+  
+  <!-- ImmutableField -->
+  <rule ref="category/java/design.xml/ImmutableField" />   
+  
+  <!-- LogicInversion -->
+  <rule ref="category/java/design.xml/LogicInversion" />  
+  
+  <!-- SignatureDeclareThrowsException -->
+  <rule ref="category/java/design.xml/SignatureDeclareThrowsException" />  
+  
+  
+  
+   <!-- SimplifyBooleanExpressions -->
+  <rule ref="category/java/design.xml/SimplifyBooleanExpressions" />
+
+  <!-- SimplifyBooleanReturns -->
+  <rule ref="category/java/design.xml/SimplifyBooleanReturns" /> 
+  
+  <!-- SimplifyConditional -->
+  <rule ref="category/java/design.xml/SimplifyConditional" />  
+  
+  <!-- SingularField -->
+  <rule ref="category/java/design.xml/SingularField" />  
+  
+  <!-- SwitchDensity (Anzahl Statements in einem Switch-Statement-->
+   <rule ref="category/java/design.xml/SwitchDensity">
+      <properties>
+          <property name="minimum" value="10.0" />
+      </properties>
+  </rule>
+  
+  <!-- TooManyFields-->
+  <rule ref="category/java/design.xml/TooManyFields">
+    <properties>
+        <property name="maxfields" value="15" />
+    </properties>
+  </rule>
+  
+  <!-- TooManyMethods (Ohne getter/Setter)-->
+  <rule ref="category/java/design.xml/TooManyMethods">
+      <properties>
+          <property name="maxmethods" value="10" />
+      </properties>
+  </rule>
+
+  <!-- UselessOverridingMethod -->
+  <rule ref="category/java/design.xml/UselessOverridingMethod" />  
+
+  <!-- UseUtilityClass -->
+  <rule ref="category/java/design.xml/UseUtilityClass" />  
+ 
+  <!--
+  * 
+  * Documentation
+  *
+  -->
+  
+ <!-- Uncommented empty Constructor bzw. Method -->
+ <rule ref="category/java/documentation.xml/UncommentedEmptyConstructor" />
+ <rule ref="category/java/documentation.xml/UncommentedEmptyMethodBody" />
+ 
+ 
+  <!--
+  * 
+  * Error Prone
+  *
+  -->
+  <!-- AssignmentInOperand -->
+   <rule ref="category/java/errorprone.xml/AssignmentInOperand">
+      <properties>
+          <property name="allowIf" value="false" />
+          <property name="allowFor" value="false" />
+          <property name="allowWhile" value="false" />
+          <property name="allowIncrementDecrement" value="false" />
+      </properties>
+  </rule> 
+  
+  <!-- AssignmentToNonFinalStatic -->
+  <rule ref="category/java/errorprone.xml/AssignmentToNonFinalStatic" />
+  
+  <!-- AvoidAccessibilityAlteration -->
+  <rule ref="category/java/errorprone.xml/AvoidAccessibilityAlteration" />
+  
+  <!-- AvoidAssertAsIdentifier -->
+  <rule ref="category/java/errorprone.xml/AvoidAssertAsIdentifier" />
+  
+  <!-- AvoidBranchingStatementAsLastInLoop -->
+  <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop">
+      <properties>
+          <property name="checkBreakLoopTypes" value="for|do|while" />
+          <property name="checkContinueLoopTypes" value="for|do|while" />
+          <property name="checkReturnLoopTypes" value="for|do|while" />
+      </properties>
+  </rule>
+  
+  <!-- AvoidCallingFinalize -->
+  <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
+  
+  <!-- AvoidCatchingNPE -->
+  <rule ref="category/java/errorprone.xml/AvoidCatchingNPE" />
+  
+  <!-- AvoidCatchingThrowable -->
+  <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable" />
+  
+  <!-- AvoidDecimalLiteralsInBigDecimalConstructor -->
+  <rule ref="category/java/errorprone.xml/AvoidDecimalLiteralsInBigDecimalConstructor" />
+  
+  <!-- AvoidDuplicateLiterals -->
+  <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
+      <properties>
+          <property name="separator" value="," />
+          <property name="maxDuplicateLiterals" value="4" />
+          <property name="minimumLength" value="3" />
+          <property name="skipAnnotations" value="false" />
+          <property name="exceptionList" value="" />
+      </properties>
+  </rule>  
+  
+  <!-- AvoidEnumAsIdentifier -->
+  <rule ref="category/java/errorprone.xml/AvoidEnumAsIdentifier" />
+  
+  <!-- AvoidFieldNameMatchingMethodName -->
+  <rule ref="category/java/errorprone.xml/AvoidFieldNameMatchingMethodName" />
+  
+  <!-- AvoidFieldNameMatchingTypeName -->
+  <rule ref="category/java/errorprone.xml/AvoidFieldNameMatchingTypeName" />
+  
+  <!-- AvoidInstanceofChecksInCatchClause -->
+  <rule ref="category/java/errorprone.xml/AvoidInstanceofChecksInCatchClause" />
+  
+  <!-- AvoidLiteralsInIfCondition -->
+  <rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
+    <properties>
+        <property name="ignoreMagicNumbers" value="-1,0" />
+    </properties>
+  </rule>
+  
+  <!-- AvoidLosingExceptionInformation -->
+  <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation" />
+  
+  <!-- AvoidMultipleUnaryOperators -->
+  <rule ref="category/java/errorprone.xml/AvoidMultipleUnaryOperators" />
+  
+  <!-- AvoidUsingOctalValues -->
+  <rule ref="category/java/errorprone.xml/AvoidUsingOctalValues">
+      <properties>
+          <property name="strict" value="false" />
+      </properties>
+  </rule>
+ 
+  <!-- BadComparison -->
+   <rule ref="category/java/errorprone.xml/BadComparison" />
+  <!-- Mit 3.21 durch diese ersetzen <rule ref="category/java/errorprone.xml/ComparisonWithNaN" />-->
+  
+  
+  
+  <!-- BrokenNullCheck -->
+  <rule ref="category/java/errorprone.xml/BrokenNullCheck" />
+  
+  <!-- CallSuperFirst (widerspricht CallSuperLast)-->
+  <rule ref="category/java/errorprone.xml/CallSuperFirst" />
+    
+  <!-- CheckSkipResult-->
+  <rule ref="category/java/errorprone.xml/CheckSkipResult" />
+  
+  <!-- ClassCastExceptionWithToArray-->
+  <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray" />
+
+  <!-- CloneMethodMustBePublic-->
+  <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
+  
+  <!-- CloneMethodMustImplementCloneable -->
+  <rule ref="category/java/errorprone.xml/CloneMethodMustImplementCloneable" />
+  
+  <!-- CloneMethodReturnTypeMustMatchClassName -->
+  <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName" />
+  
+  
+  <!-- CloseResource-->
+   <rule ref="category/java/errorprone.xml/CloseResource" />
+
+  
+  <!-- CompareObjectsWithEquals-->
+  <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals" />
+  
+  <!-- ConstructorCallsOverridableMethod -->
+  <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod" />
+  
+  <!-- DataflowAnomalyAnalysis 
+  
+  Deaktiviert, da die Regel bisher nicht mit for-each-loops zurechtkommt
+  <rule ref="category/java/errorprone.xml/DataflowAnomalyAnalysis">
+    <properties>
+        <property name="maxPaths" value="1000" />
+        <property name="maxViolations" value="100" />
+    </properties>
+  </rule>-->
+  
+  <!-- DetachedTestCase -->
+  <rule ref="category/java/errorprone.xml/DetachedTestCase" />
+  
+  <!-- DoNotCallGarbageCollectionExplicitly -->
+  <rule ref="category/java/errorprone.xml/DoNotCallGarbageCollectionExplicitly" />
+  
+  <!-- DoNotCallSystemExit oder äquivalente Methoden -->
+  <rule ref="category/java/errorprone.xml/DoNotTerminateVM" />
+
+  
+  <!-- DoNotExtendJavaLangThrowable -->
+  <rule ref="category/java/errorprone.xml/DoNotExtendJavaLangThrowable" />
+  
+  <!-- DoNotHardCodeSDCard -->
+  <rule ref="category/java/errorprone.xml/DoNotHardCodeSDCard" />
+  
+  <!-- DoNotThrowExceptionInFinally -->
+  <rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally" />
+  
+  <!-- DontImportSun -->
+  <rule ref="category/java/errorprone.xml/DontImportSun" />
+  
+  <!-- DontUseFloatTypeForLoopIndices -->
+  <rule ref="category/java/errorprone.xml/DontUseFloatTypeForLoopIndices" />
+  
+  <!-- EmptyCatchBlock -->
+   <rule ref="category/java/errorprone.xml/EmptyCatchBlock">
+      <properties>
+          <property name="allowCommentedBlocks" value="false" />
+          <property name="allowExceptionNameRegex" value="^(ignored|expected)$" />
+      </properties>
+  </rule>
+ 
+ <!-- EmptyControllSatement -->
+ 
+ <!-- von hier -->
+ 
+  <!-- EmptyFinallyBlock -->
+  <rule ref="category/java/errorprone.xml/EmptyFinallyBlock" />
+  
+  <!-- EmptyIfStmt -->
+  <rule ref="category/java/errorprone.xml/EmptyIfStmt" />
+  
+  <!-- EmptyInitializer -->
+  <rule ref="category/java/errorprone.xml/EmptyInitializer" />
+  
+  <!-- EmptyStatementBlock -->
+  <rule ref="category/java/errorprone.xml/EmptyStatementBlock" />
+  
+  <!-- EmptyStatementNotInLoop -->
+  <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop" />
+  
+  <!-- EmptySwitchStatements--> 
+  <rule ref="category/java/errorprone.xml/EmptySwitchStatements" />
+
+  <!-- EmptySynchronizedBlock -->
+  <rule ref="category/java/errorprone.xml/EmptySynchronizedBlock" />
+  
+  <!-- EmptyTryBlock -->
+  <rule ref="category/java/errorprone.xml/EmptyTryBlock" />
+  
+  <!-- EmptyWhileStmt -->  
+  <rule ref="category/java/errorprone.xml/EmptyWhileStmt" /> 
+ 
+ <!-- bis hier mit 3.12.0 ersetzen durch die nächsten zwei
+  <rule ref="category/java/codestyle.xml/EmptyControlStatement" /> 
+  -->
+  
+   <!-- Reports unnecessary semicolons (so called "empty statements" and "empty declarations").   mit 3.21. wieder aufnehmen
+  <rule ref="category/java/codestyle.xml/UnnecessarySemicolon" />  
+  
+  -->
+  
+  <!-- EmptyFinalizer -->
+  <rule ref="category/java/errorprone.xml/EmptyFinalizer" />
+ 
+ 
+  
+  <!-- EqualsNull -->
+  <rule ref="category/java/errorprone.xml/EqualsNull" />
+  
+  <!-- FinalizeDoesNotCallSuperFinalize-->
+  <rule ref="category/java/errorprone.xml/FinalizeDoesNotCallSuperFinalize" />
+  
+  <!-- FinalizeOnlyCallsSuperFinalize --> 
+  <rule ref="category/java/errorprone.xml/FinalizeOnlyCallsSuperFinalize" />  
+
+  <!-- FinalizeOverloaded -->
+  <rule ref="category/java/errorprone.xml/FinalizeOverloaded" />
+  
+  <!-- FinalizeShouldBeProtected -->
+  <rule ref="category/java/errorprone.xml/FinalizeShouldBeProtected" />
+  
+  <!-- IdempotentOperations-->
+  <rule ref="category/java/errorprone.xml/IdempotentOperations" />
+
+  <!-- Unused / UnnecessaryImport (ImportFromSamePackage) in 3.12.0 ersetzen durch
+  <rule ref="category/java/codestyle.xml/UnnecessaryImport" /> -->
+    <rule ref="category/java/errorprone.xml/ImportFromSamePackage" />
+  
+  
+  <!-- InstantiationToGetClass -->
+  <rule ref="category/java/errorprone.xml/InstantiationToGetClass" />
+  
+  <!-- InvalidLogMessageFormat -->
+  <rule ref="category/java/errorprone.xml/InvalidLogMessageFormat" />
+
+  <!-- JumbledIncrementer-->
+  <rule ref="category/java/errorprone.xml/JumbledIncrementer" />
+  
+
+  
+  <!-- MethodWithSameNameAsEnclosingClass -->
+  <rule ref="category/java/errorprone.xml/MethodWithSameNameAsEnclosingClass" />
+  
+  <!-- MisplacedNullCheck -->
+  <rule ref="category/java/errorprone.xml/MisplacedNullCheck" />
+  
+  <!-- MissingBreakInSwitch in 3.21.0 ersetzen mit
+  <rule ref="category/java/errorprone.xml/ImplicitSwitchFallThrough" /> -->
+    <rule ref="category/java/errorprone.xml/MissingBreakInSwitch" />
+
+  <!-- MissingSerialVersionUID -->
+  <rule ref="category/java/errorprone.xml/MissingSerialVersionUID" />
+  
+  <!-- MissingStaticMethodInNonInstantiatableClass -->
+  <rule ref="category/java/errorprone.xml/MissingStaticMethodInNonInstantiatableClass" />
+  
+  <!-- MoreThanOneLogger-->
+  <rule ref="category/java/errorprone.xml/MoreThanOneLogger" />
+
+  <!-- NonCaseLabelInSwitchStatement -->
+  <rule ref="category/java/errorprone.xml/NonCaseLabelInSwitchStatement" />
+  
+  <!-- NonStaticInitializer -->
+  <rule ref="category/java/errorprone.xml/NonStaticInitializer" />
+  
+  <!-- NullAssignment 
+  NOTE: This sort of assignment may used in some cases to dereference objects and encourage garbage collection.
+  -->  
+  <rule ref="category/java/errorprone.xml/NullAssignment" />
+  
+  <!-- OverrideBothEqualsAndHashcode -->
+  <rule ref="category/java/errorprone.xml/OverrideBothEqualsAndHashcode" />
+
+  <!-- ProperCloneImplementation -->
+  <rule ref="category/java/errorprone.xml/ProperCloneImplementation" />
+  
+  <!-- ReturnEmptyCollectionRatherThanNull in 3.21.0 ersetzen durch
+  <rule ref="category/java/errorprone.xml/ReturnEmptyCollectionRatherThanNull" />--> 
+    <rule ref="category/java/errorprone.xml/ReturnEmptyArrayRatherThanNull" />
+
+  <!-- ReturnFromFinallyBlock -->
+  <rule ref="category/java/errorprone.xml/ReturnFromFinallyBlock" />
+
+  <!-- SimpleDateFormatNeedsLocale -->
+  <rule ref="category/java/errorprone.xml/SimpleDateFormatNeedsLocale" />
+  
+  <!-- SingleMethodSingleton -->
+  <rule ref="category/java/errorprone.xml/SingleMethodSingleton" />
+  
+  <!-- SingletonClassReturningNewInstance --> 
+  <rule ref="category/java/errorprone.xml/SingletonClassReturningNewInstance" />
+  
+  <!-- StaticEJBFieldShouldBeFinal-->
+  <rule ref="category/java/errorprone.xml/StaticEJBFieldShouldBeFinal" />
+
+  <!-- StringBufferInstantiationWithChar -->
+  <rule ref="category/java/errorprone.xml/StringBufferInstantiationWithChar" />
+  
+  <!-- SuspiciousEqualsMethodName -->
+  <rule ref="category/java/errorprone.xml/SuspiciousEqualsMethodName" />
+  
+  <!-- SuspiciousHashcodeMethodName --> 
+  <rule ref="category/java/errorprone.xml/SuspiciousHashcodeMethodName" />
+
+  <!-- SuspiciousOctalEscape -->
+  <rule ref="category/java/errorprone.xml/SuspiciousOctalEscape" />
+
+  <!-- TestClassWithoutTestCases -->
+  <rule ref="category/java/errorprone.xml/TestClassWithoutTestCases" />
+  
+  <!-- UnconditionalIfStatement -->
+  <rule ref="category/java/errorprone.xml/UnconditionalIfStatement" />
+  
+  <!-- UnnecessaryBooleanAssertion--> 
+  <rule ref="category/java/errorprone.xml/UnnecessaryBooleanAssertion" />
+
+  <!-- UnnecessaryCaseChange -->
+  <rule ref="category/java/errorprone.xml/UnnecessaryCaseChange" />
+  
+  <!-- UnnecessaryConversionTemporary--> 
+  <rule ref="category/java/errorprone.xml/UnnecessaryConversionTemporary" />
+
+  <!-- UnusedNullCheckInEquals -->
+  <rule ref="category/java/errorprone.xml/UnusedNullCheckInEquals" />
+  
+  <!-- UseCorrectExceptionLogging-->
+  <rule ref="category/java/errorprone.xml/UseCorrectExceptionLogging" />
+  
+  <!-- UseEqualsToCompareStrings--> 
+  <rule ref="category/java/errorprone.xml/UseEqualsToCompareStrings" />
+  
+  <!-- UselessOperationOnImmutable--> 
+  <rule ref="category/java/errorprone.xml/UselessOperationOnImmutable" />
+
+  <!-- UseLocaleWithCaseConversions -->
+  <rule ref="category/java/errorprone.xml/UseLocaleWithCaseConversions" />
+
+  <!-- UseProperClassLoader--> 
+  <rule ref="category/java/errorprone.xml/UseProperClassLoader" />
+
+ 
+ 
+  <!--
+  * 
+  * Multithreading
+  *
+  --> 
+  <!-- Nicht ganze Methoden synchronisieren, sondern nur die notwendigen Codeteile -->
+  <rule ref="category/java/multithreading.xml/AvoidSynchronizedAtMethodLevel" /> 
+
+  <!-- Threads sind in JaveEE verboten -->
+  <rule ref="category/java/multithreading.xml/DoNotUseThreads" />
+  <rule ref="category/java/multithreading.xml/DontCallThreadRun" />  
+ 
+ 
+  <!-- DoubleCheckedLocking -->
+  <rule ref="category/java/multithreading.xml/DoubleCheckedLocking" />  
+
+  <!-- NonThreadSafeSingleton -->
+  <rule ref="category/java/multithreading.xml/NonThreadSafeSingleton" /> 
+  
+  <!-- UseConcurrentHashMap -->
+  <rule ref="category/java/multithreading.xml/UseConcurrentHashMap" />
+  
+  <!-- UseNotifyAllInsteadOfNotify -->
+  <rule ref="category/java/multithreading.xml/UseNotifyAllInsteadOfNotify" /> 
+  
+  
+  <!--
+  * 
+  * Performance
+  *
+  -->
+  <!-- The conversion of literals to strings by concatenating them with empty strings is inefficient. It is much better to use one of the type-specific toString() methods instead. -->
+  <rule ref="category/java/performance.xml/AddEmptyString" />
+  
+  <!-- Avoid concatenating characters as strings in StringBuffer/StringBuilder.append methods. -->
+  <rule ref="category/java/performance.xml/AppendCharacterWithChar" />
+  
+  <!-- AvoidArrayLoops -->
+  <rule ref="category/java/performance.xml/AvoidArrayLoops" />
+  
+  <!-- AvoidFileStream https://pmd.github.io/latest/pmd_rules_java_performance.html#avoidfilestream -->
+  <rule ref="category/java/performance.xml/AvoidFileStream" />
+ 
+
+  
+  <!-- BigIntegerInstantiation 
+   Don’t create instances of already existing BigInteger (BigInteger.ZERO, BigInteger.ONE) and for Java 1.5 onwards, BigInteger.TEN and BigDecimal (BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN) -->
+  <rule ref="category/java/performance.xml/BigIntegerInstantiation" />
+  
+  <!--  PrimitiveWrapperInstantiation  Von hier mit 3.21.0 durch PrimitiveWrapper ersetzen
+  <rule ref="category/java/bestpractices.xml/PrimitiveWrapperInstantiation" /> -->
+  
+  
+    <!-- BooleanInstantiation -->
+  <rule ref="category/java/performance.xml/BooleanInstantiation" />
+  
+  <!--ByteInstantiation  -->
+  <rule ref="category/java/performance.xml/ByteInstantiation" />
+  <!-- IntegerInstantiation -->
+  <rule ref="category/java/performance.xml/IntegerInstantiation" />
+  
+  <!-- LongInstantiation -->
+  <rule ref="category/java/performance.xml/LongInstantiation" />
+  <!-- ShortInstantiation -->
+  <rule ref="category/java/performance.xml/ShortInstantiation" />
+  
+  <!-- bis hier-->
+
+  
+  <!-- ConsecutiveAppendsShouldReuse -->
+  <rule ref="category/java/performance.xml/ConsecutiveAppendsShouldReuse" />
+  
+  <!-- ConsecutiveLiteralAppends -->
+  <rule ref="category/java/performance.xml/ConsecutiveLiteralAppends" />
+  
+  <!-- InefficientEmptyStringCheck -->
+  <rule ref="category/java/performance.xml/InefficientEmptyStringCheck" />
+  
+  <!-- InefficientStringBuffering -->
+  <rule ref="category/java/performance.xml/InefficientStringBuffering" />
+  
+  <!-- InsufficientStringBufferDeclaration -->
+  <rule ref="category/java/performance.xml/InsufficientStringBufferDeclaration" />
+  
+  
+  <!-- OptimizableToArrayCall -->
+  <rule ref="category/java/performance.xml/OptimizableToArrayCall" />
+  
+  <!-- RedundantFieldInitializer -->
+  <rule ref="category/java/performance.xml/RedundantFieldInitializer" />
+  
+
+  
+  <!-- StringInstantiation -->
+  <rule ref="category/java/performance.xml/StringInstantiation" />
+  
+  <!-- StringToString -->
+  <rule ref="category/java/performance.xml/StringToString" />
+  
+  <!-- TooFewBranchesForASwitchStatement -->
+  <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement">
+    <properties>
+        <property name="minimumNumberCaseForASwitch" value="3" />
+    </properties>
+  </rule>
+
+  <!-- UnnecessaryWrapperObjectCreation -->
+  <!--  Mit PMD 7 dann durch: UnnecessaryBoxing ersetzen -->
+  
+  <!-- UseArrayListInsteadOfVector 
+  ArrayList is a much better Collection implementation than Vector if thread-safe operation is not required. -->
+  <rule ref="category/java/performance.xml/UseArrayListInsteadOfVector" />
+  
+  <!-- UseArraysAsList -->
+  <rule ref="category/java/performance.xml/UseArraysAsList" />
+  
+  <!-- UseIndexOfChar -->
+  <rule ref="category/java/performance.xml/UseIndexOfChar" />
+  
+  <!-- UselessStringValueOf -->
+  <rule ref="category/java/performance.xml/UselessStringValueOf" />
+  
+  <!-- UseStringBufferForStringAppends -->
+  <rule ref="category/java/performance.xml/UseStringBufferForStringAppends" />
+  
+  <!-- UseStringBufferLength -->
+  <rule ref="category/java/performance.xml/UseStringBufferLength" />
+    
+  <!--
+  * 
+  * Security
+  *
+  -->
+  <!-- Do not use hard coded values for cryptographic operations. Please store keys outside of source code. -->
+  <rule ref="category/java/security.xml/HardCodedCryptoKey" />
+  
+  <!-- InsecureCryptoIv -->
+  <rule ref="category/java/security.xml/InsecureCryptoIv" />
+  
+  
+</ruleset>
