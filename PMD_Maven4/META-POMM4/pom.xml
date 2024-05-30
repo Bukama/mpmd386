@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.1.0 http://maven.apache.org/xsd/maven-4.1.0.xsd" root="true">
+  <modelVersion>4.1.0</modelVersion>
+  <groupId>my.test.mpmd386</groupId>
+  <artifactId>META-POMM4</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <!-- Verison of  SCA-rulesets are needed at multiple places, therefore its a variable -->
+    <build-tools.version>1.0.0</build-tools.version>
+
+    <pmd.version>3.15.0</pmd.version> 
+
+    <!-- Extension of base dir for supressfiles in multi-module projects. The rare single-module projects override this property -->
+    <path.to.suppressfile.wo.slash>${project.basedir}/..</path.to.suppressfile.wo.slash>
+  </properties>
+  <build>
+    <extensions>
+      <extension>
+        <!-- SCA-Regeln-->
+        <groupId>my.test.mpmd386</groupId>
+        <artifactId>build-tools</artifactId>
+        <version>${build-tools.version}</version>
+      </extension>
+    </extensions>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <version>3.12.1</version>
+          <dependencies>
+            <dependency>
+          <groupId>org.apache.maven.wagon</groupId>
+          <artifactId>wagon-webdav-jackrabbit</artifactId>      
+          <version>3.5.3</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>3.3.0</version>
+          <dependencies>
+            <dependency>
+              <groupId>my.test.mpmd386</groupId>
+              <artifactId>build-tools</artifactId>
+              <version>${build-tools.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-pmd-plugin</artifactId>
+          <version>${pmd.version}</version> 
+          <configuration>
+            <rulesets>
+              <ruleset>my/test/codeanalysis/pmd-ruleset.xml</ruleset>
+            </rulesets>
+            <printFailingErrors>true</printFailingErrors>
+            <analysisCache>true</analysisCache>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>my.test.mpmd386</groupId>
+              <artifactId>build-tools</artifactId>
+              <version>${build-tools.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <!-- Checkstyle -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <!-- Checkstyle rules -->
+          <configLocation>my/test/codeanalysis/checkstyle.xml</configLocation>
+          <!-- Checkstyle seems to work with a regEx and not a exact file path -->
+          <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+          <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+          <sourceDirectories>
+            <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+            <sourceDirectory>${project.build.testSourceDirectory}</sourceDirectory>
+          </sourceDirectories>
+        </configuration>
+      </plugin>
+      <!-- PMD -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <configuration>
+          <linkXref>false</linkXref>
+          <sourceEncoding>${project.build.sourceEncoding}</sourceEncoding>
+          <targetJdk>1.8</targetJdk>
+          <excludeFromFailureFile>exclude-pmd.properties</excludeFromFailureFile>
+          <!-- Before 3.15.0 -->
+          <!--<excludeFromFailureFile>${path.to.suppressfile.wo.slash}/exclude-pmd.properties</excludeFromFailureFile>-->
+
+          <!-- Maven 4.0.0-beta-3 with Model 4.1.0 -->
+          <excludeFromFailureFile>${project.rootDirectory}/exclude-pmd.properties</excludeFromFailureFile>
+          <rulesets>
+            <ruleset>my/test/codeanalysis/pmd-ruleset.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.4.5</version>
+        <configuration>
+          <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jxr-plugin</artifactId>
+        <version>3.3.0</version>
+      </plugin>
+
+    </plugins>
+  </reporting>
+
+</project>
